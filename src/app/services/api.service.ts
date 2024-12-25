@@ -8,9 +8,9 @@ import { IExepnse, IExpenseType, IIncome, IIncomeType } from '../types/types';
 })
 export class ApiService {
 
-    private baseUrl = 'http://127.0.0.1:8000/api/user';
+    // private baseUrl = 'http://127.0.0.1:8000/api/user';
 
-    // private baseUrl = 'http://51.20.53.57/kdda/api/user';
+    private baseUrl = 'https://kddt.pythonanywhere.com/kdda/api/user';
 
     private httpClient = inject(HttpClient);
 
