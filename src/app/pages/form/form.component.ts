@@ -215,7 +215,9 @@ export class FormComponent implements OnInit {
 
         this.apiService.handleCreateIncomeTypeService(type, this.user).subscribe({
             next: (responseData) => {
-                console.log(responseData);
+                if(responseData) {
+                    this.handleGetIncomeTypes();
+                }
             },
             error: (error) => {
                 console.log(error)
@@ -237,13 +239,14 @@ export class FormComponent implements OnInit {
 
         this.apiService.handleCreateExpenseTypeService(type, this.user).subscribe({
             next: (responseData) => {
-                console.log(responseData);
+                if(responseData) {
+                    this.handleGetExpenseTypes();
+                }
             },
             error: (error) => {
                 console.log(error)
             },
             complete: () => {
-
                 this.toggleAddExpenseOption = !this.toggleAddExpenseOption;
                 this.handleResetExpenseForm();
             }

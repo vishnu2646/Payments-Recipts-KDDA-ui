@@ -1,16 +1,16 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
-import { MatOptionSelectionChange } from '@angular/material/core';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { UserService } from '../../services/user.service';
 import { ApiService } from '../../services/api.service';
 import { IExepnse, IIncome } from '../../types/types';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-data',
@@ -24,7 +24,8 @@ import { CommonModule } from '@angular/common';
         MatTableModule,
         MatSortModule,
         MatPaginatorModule,
-        CommonModule
+        CommonModule,
+        RouterModule
     ],
     templateUrl: './data.component.html',
     styleUrl: './data.component.scss'
@@ -48,17 +49,9 @@ export class DataComponent {
 
     public expenseDataSource: MatTableDataSource<IExepnse> = new MatTableDataSource<IExepnse>();
 
-    // @ViewChild('paginatorIncome')
-    // public paginator!: MatPaginator;
-
-    // @ViewChild('paginatorExpense')
-    // public paginatorExpense!: MatPaginator;
-
     public ngAfterViewInit() {
         this.getUserDetails();
         this.handleGetIncomeData();
-        // this.incomeDataSource.paginator = this.paginator;
-        // this.expenseDataSource.paginator = this.paginatorExpense;
     }
 
     public getUserDetails() {

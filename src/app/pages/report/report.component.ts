@@ -19,6 +19,5 @@ export class ReportComponent implements OnInit {
 
     public ngOnInit(): void {
         this.reportData = history.state;
-        console.log(this.reportData);
     }
 }

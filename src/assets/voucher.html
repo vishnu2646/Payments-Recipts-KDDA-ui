@@ -1,0 +1,119 @@
+{% load static %} 
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="icon" href="{% static 'images/icon2.png' %}" type="image/gif" sizes="16x16">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <title>Voucher</title>
+        <style>
+        *{
+            font-family: 'Times New Roman';
+            font-size:20px;
+        }
+        </style>
+    </head>
+    <body onload="window.print()">
+        <div class="container" style="border:1px solid black;">
+            <div class="heading">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img src="{% static 'images/trust1.jpeg' %}" class="mt-2" width="80" height="80" style="margin-right:5%">
+                        <br>
+                    </div>
+                    <div class="col-md-10">
+                        <h1 class="title mt-2" style="font-size:45px;">Krishnagiri Dristict Deaf Trust</h1>
+                        <h4 class="tit mt-1" style="font-size:25px;">KDDA,Auditorium,29/1,2,Titan Township,H.C.F Post,Mathigiri,Hosur 635110</h4>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="border:1px solid black;text-align:center;border-top:none;">
+            <div class="row">
+                <div class="col-md-4" style="border-right:1px solid black;">
+                    <h4 class="mt-3">VOUCHER</h4>
+                    <br>
+                </div>
+                <div class="col-md-8">  
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="text" style="text-align:left;">Sr.No: Exp {{ expid }}</h5>
+                            <br>
+                        </div>
+                        <div class="col-md-12" style="border-top:1px solid black;"> 
+                            <h5 class="text" style="text-align:left;">Date: {{ expdate|date:"d/m/Y" }}</h5>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" style="border:1px solid black;border-right:1px solid black;border-top:none;">
+                    <h5 class="name">Name</h5>
+                    <br>
+                </div>
+                <div class="col-md-9" style="border:1px solid black;border-left:none;border-top:none;">
+                    <h5 class="value">{{ expname }}</h5>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" style="border:1px solid black;border-right:1px solid black;border-top:none;">
+                    <h5 class="name">Amount(Rs.)</h5>
+                </div>
+                <div class="col-md-9" style="border:1px solid black;border-left:none;border-top:none;">
+                    <h5 class="value">{{ amount }}</h5>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" style="border:1px solid black;border-right:1px solid black;border-top:none;">
+                    <h5 class="name">Amount In</h5>
+                    <br>
+                </div>
+                <div class="col-md-9" style="border:1px solid black;border-left:none;border-top:none;">
+                    <h5 class="value">{{ b }}</h5>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" style="border:1px solid black;border-right:1px solid black;border-top:none;">
+                    <h5 class="name">Payment Mode</h5>
+                    <br>
+                </div>
+                <div class="col-md-3" style="border:1px solid black;border-left:none;border-top:none;">
+                    <h5 class="value">{{ expmode }}</h5>
+                    <br>
+                </div>
+                <div class="col-md-6" style="border:1px solid black;border-left:none;border-top:none;">
+                    <h5 class="value">Paid Through: {{ expby }}</h5>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="border:1px solid black;border-top:none;">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="title">Recived By</h5><h4>{{ expreason }}</h4>
+                </div>
+                <div class="col-md-6" style="text-align:right;">
+                    <h4 class="given">Given By</h4>
+                    <h4 class="sign mt-5">General Secretary/Treasurer</h4>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    </body>
+</html>
