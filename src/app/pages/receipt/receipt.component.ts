@@ -78,8 +78,4 @@ export class ReceiptComponent {
             }
         });
     }
-
-    public ngAfterViewInit(): void {
-        window.print();
-    }
 }

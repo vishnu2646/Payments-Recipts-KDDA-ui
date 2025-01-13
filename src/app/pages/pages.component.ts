@@ -46,32 +46,37 @@ export class PagesComponent {
 
     private verticalPosition: MatSnackBarVerticalPosition = 'top';
 
+    private activeUrl: string = '';
+
     public user: any;
 
     public menus = [
         {
             title: 'Menu',
-            active: false,
             links: [
                 {
                     icon: 'dashboard',
                     menuTitle: 'Dashboard',
-                    route: '/dashboard'
+                    route: '/dashboard',
+                    active: false,
                 },
                 {
                     icon: 'edit_note',
                     menuTitle: 'Income / Expense Form',
-                    route: '/dashboard/form'
+                    route: '/dashboard/form',
+                    active: false,
                 },
                 {
                     icon: 'dataset',
                     menuTitle: 'Income / Expense Data',
-                    route: '/dashboard/data'
+                    route: '/dashboard/data',
+                    active: false,
                 },
                 {
                     icon: 'edit_note',
                     menuTitle: 'Opening Information',
                     route: '/dashboard/openings',
+                    active: false,
                 }
             ]
         },
@@ -82,22 +87,26 @@ export class PagesComponent {
                 {
                     icon: 'settings',
                     menuTitle: 'Settings',
-                    route: '/dashboard'
+                    route: '/dashboard',
+                    active: false,
                 },
                 {
                     icon: 'manage_accounts',
                     menuTitle: 'Account',
-                    route: '/dashboard'
+                    route: '/dashboard',
+                    active: false,
                 },
                 {
                     icon: 'info',
                     menuTitle: 'Help',
-                    route: '/dashboard'
+                    route: '/dashboard',
+                    active: false,
                 },
                 {
                     icon: 'logout',
                     menuTitle: 'Logout',
-                    route: '/auth/login'
+                    route: '/auth/login',
+                    active: false,
                 }
             ]
         }
@@ -106,7 +115,7 @@ export class PagesComponent {
     constructor() {
         this.router.events.subscribe((val) => {
             if(val instanceof NavigationEnd) {
-                console.log(val.url);
+                this.activeUrl = val.url;
             }
         });
 
@@ -124,6 +133,12 @@ export class PagesComponent {
 
     public handleSelectedRoute(route: IRoute): void {
         this.selectedRoute = route;
+        this.menus.forEach((menu) => {
+            menu.links.forEach((link) => {
+                link.active = false;
+            });
+        });
+        route.active = true;
         if(route.menuTitle === 'Logout') {
             sessionStorage.removeItem('user');
             this.apiService.handleLogoutService(this.user).subscribe({

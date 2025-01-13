@@ -57,10 +57,6 @@ export class VoucherComponent {
         this.getVoucherDetails();
     }
 
-    public ngAfterViewInit(): void {
-        window.print();
-    }
-
     public getUserDetails() {
         const user = this.userService.getUserData();
         if(user) {

@@ -3,7 +3,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { UserService } from '../../services/user.service';
@@ -11,22 +10,24 @@ import { ApiService } from '../../services/api.service';
 import { IExepnse, IIncome } from '../../types/types';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-data',
     standalone: true,
     imports: [
-        MatButtonModule,
-        MatInputModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatFormFieldModule, MatInputModule,
-        MatTableModule,
-        MatSortModule,
-        MatPaginatorModule,
-        CommonModule,
-        RouterModule
-    ],
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatFormFieldModule, MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    CommonModule,
+    RouterModule,
+    MatIconModule,
+],
     templateUrl: './data.component.html',
     styleUrl: './data.component.scss'
 })
@@ -35,13 +36,21 @@ export class DataComponent {
 
     private apiService = inject(ApiService);
 
+    private router = inject(Router);
+
+    private _snackBar = inject(MatSnackBar);
+
+    public isIncomeLoading: boolean = false;
+
+    public isExpenseLoading: boolean = false;
+
     private user: { msg: String, token: { refresh: String, access: String } } = {} as { msg: String, token: { refresh: String, access: String } }
 
     public formType = ['Income', 'Expense'];
 
     public selectedType = 'Income';
 
-    public displayIncomeColumns: String[] = [];
+    public displayIncomeColumns: String[] = ['Action'];
 
     public displayExpenseColumns: String[] = [];
 
@@ -49,7 +58,7 @@ export class DataComponent {
 
     public expenseDataSource: MatTableDataSource<IExepnse> = new MatTableDataSource<IExepnse>();
 
-    public ngAfterViewInit() {
+    public ngOnInit(): void {
         this.getUserDetails();
         this.handleGetIncomeData();
     }
@@ -73,48 +82,88 @@ export class DataComponent {
     public applyIncomeFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
         this.incomeDataSource.filter = filterValue.trim().toLowerCase();
-
-        if (this.incomeDataSource.paginator) {
-            this.incomeDataSource.paginator.firstPage();
-        }
     }
 
     public applyExpenseFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
         this.expenseDataSource.filter = filterValue.trim().toLowerCase();
+    }
 
-        if (this.expenseDataSource.paginator) {
-            this.expenseDataSource.paginator.firstPage();
-        }
+    public handleDeleteIncome(id: number) {
+        this.apiService.handleDeleteIncomeService(id, this.user).subscribe({
+            next: (response) => {
+                this.openSnackBar('Income deleted successfully');
+            },
+            error: (error: Error) => {
+                console.log(error);
+            },
+            complete: () => {
+                console.log("complete");
+            }
+        })
+    }
+
+    public handleDeleteExpense(id: number) {
+        this.apiService.handleDeleteExpenseservice(id, this.user).subscribe({
+            next: (response) => {
+                this.openSnackBar('Expense deleted successfully');
+            },
+            error: (error: Error) => {
+                console.log(error);
+            },
+            complete: () => {
+                console.log("complete");
+            }
+        })
+    }
+
+    public handleRouteUpdateIncome(id: number) {
+        this.router.navigate(['/dashboard/form'], { queryParams: { id: id, type: 'income' } });
+    }
+
+    public handleRouteUpdateExpense(id: number) {
+        this.router.navigate(['/dashboard/form'], { queryParams: { id: id, type: 'expense' } });
     }
 
     private handleGetIncomeData() {
+        this.isIncomeLoading = !this.isIncomeLoading;
         this.apiService.handleGetIncomeService(this.user).subscribe({
             next: (data: IIncome[]) => {
                 this.incomeDataSource.data = data;
-                this.displayIncomeColumns = Object.keys(data[0])
+                this.displayIncomeColumns = Object.keys(data[0]);
+                this.displayIncomeColumns = [...this.displayIncomeColumns, 'Action']
             },
             error: (error) => {
                 console.log(error);
             },
             complete: () => {
-
+                this.isIncomeLoading = !this.isIncomeLoading;
             }
         });
     }
 
     private handleGetExpenseData() {
+        this.isExpenseLoading = !this.isExpenseLoading;
         this.apiService.handleGetExpenseService(this.user).subscribe({
             next: (data: IExepnse[]) => {
                 this.expenseDataSource.data = data;
                 this.displayExpenseColumns = Object.keys(data[0])
+                this.displayExpenseColumns = [...this.displayExpenseColumns, 'Action'];
             },
             error: (error) => {
                 console.log(error);
             },
             complete: () => {
-
+                this.isExpenseLoading = !this.isExpenseLoading;
             }
+        });
+    }
+
+    private openSnackBar(message: string) {
+        this._snackBar.open(message, 'X', {
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+            duration: 2000
         });
     }
 }
