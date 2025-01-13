@@ -8,9 +8,9 @@ import { IExepnse, IExpenseType, IIncome, IIncomeType } from '../types/types';
 })
 export class ApiService {
 
-    private baseUrl = 'http://127.0.0.1:8000/api/user';
+    // private baseUrl = 'http://127.0.0.1:8000/api/user';
 
-    // private baseUrl = 'https://kdda.pythonanywhere.com/api/user';
+    private baseUrl = 'https://kdda.pythonanywhere.com/api/user';
 
     private httpClient = inject(HttpClient);
 
@@ -137,10 +137,6 @@ export class ApiService {
     }
 
     public handleUpdateExpenseService(id: number, options: any, data: any): Observable<any> {
-        const headers = new HttpHeaders({
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${options.token.access}`
-        });
         return this.httpClient.post<any>(`${this.baseUrl}/expense/update/${id}/`, data);
     }
 
