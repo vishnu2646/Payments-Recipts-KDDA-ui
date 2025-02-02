@@ -14,7 +14,7 @@
     <div class="header">
         <p>No: {{ receiptData.incid }}</p>
         <h3>Receipt</h3>
-        <p>Date: {{ receiptData.date }}</p>
+        <p>Date: {{ receiptData.date.toString() | date: 'dd/MM/yyyy' }}</p>
     </div>
     <div class="content">
         <div class="name-content">
