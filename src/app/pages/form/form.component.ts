@@ -181,7 +181,6 @@ export class FormComponent implements OnInit {
         this.apiService.getIncomeDetailsService(this.dataId, this.user).subscribe({
             next: (response: any) => {
                 this.incomeForm = response;
-                console.log(this.incomeForm);
                 if(this.incomeForm.mode.includes('Transfer')) {
                     this.selectedIncomeMode = 'Transfer';
                     this.handleIncomeModeChange();
@@ -195,10 +194,6 @@ export class FormComponent implements OnInit {
                     this.selectedIncomeMode = 'DEMAND DRAFT';
                     this.handleIncomeModeChange();
                 }
-                const date = this.convertStringToDate(response.date);
-                const dateinbank = this.convertStringToDate(response.dateinbank);
-                this.incomeForm.date = new Date(date) as unknown as string;
-                this.incomeForm.dateinbank = new Date(dateinbank) as unknown as string;
             },
             error: (error: Error) => {
                 console.log(error);
@@ -212,7 +207,6 @@ export class FormComponent implements OnInit {
     public getExpenseDetailData() {
         this.apiService.handleGetExpenseDetailService(this.dataId, this.user).subscribe({
             next: (response: any) => {
-                console.log(response);
                 this.expenseForm = response;
                 if(this.expenseForm.mode.includes('Transfer')) {
                     this.selectedExpenseMode = 'Transfer';
@@ -227,11 +221,6 @@ export class FormComponent implements OnInit {
                     this.selectedExpenseMode = 'DEMAND DRAFT';
                     this.handleExpenseModeChange();
                 }
-
-                const date = this.convertStringToDate(response.date);
-                const dateinbank = this.convertStringToDate(response.dateinbank);
-                this.expenseForm.date = new Date(date) as unknown as string;
-                this.expenseForm.dateinbank = new Date(dateinbank) as unknown as string;
             },
             error: (error: Error) => {
                 console.log(error);
@@ -475,9 +464,4 @@ export class FormComponent implements OnInit {
             dateinbank: ''
         }
     }
-
-    private convertStringToDate(dateStr: string): Date {
-        const [day, month, year] = dateStr.split('-');
-        return new Date(`${year}-${month}-${day}`);  // Convert to YYYY-MM-DD format
-      }
 }
