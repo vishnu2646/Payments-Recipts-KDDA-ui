@@ -36,9 +36,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Choose Income date</mat-label>
-                    <input matInput [matDatepicker]="incomeDate" [(ngModel)]="incomeForm.date">
-                    <mat-datepicker-toggle matIconSuffix [for]="incomeDate"></mat-datepicker-toggle>
-                    <mat-datepicker #incomeDate></mat-datepicker>
+                    <input matInput type="text" [(ngModel)]="incomeForm.date">
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Income Mode</mat-label>
@@ -77,10 +75,8 @@
                         <input matInput type="number" placeholder="Enter Cheque or DD No" [(ngModel)]="incomeForm.chequeordd">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
-                        <mat-label>Choose Date in Bank</mat-label>
-                        <input matInput [matDatepicker]="bankDate" [(ngModel)]="incomeForm.dateinbank">
-                        <mat-datepicker-toggle matIconSuffix [for]="bankDate"></mat-datepicker-toggle>
-                        <mat-datepicker #bankDate></mat-datepicker>
+                        <mat-label>Enter Date in Bank</mat-label>
+                        <input matInput type="text" [(ngModel)]="incomeForm.dateinbank">
                     </mat-form-field>
                 </div>
             </div>
@@ -112,10 +108,8 @@
                     </mat-autocomplete>
                 </mat-form-field>
                 <mat-form-field appearance="outline">
-                    <mat-label>Choose Expense date</mat-label>
-                    <input matInput [matDatepicker]="expenseDate" [(ngModel)]="expenseForm.date">
-                    <mat-datepicker-toggle matIconSuffix [for]="expenseDate"></mat-datepicker-toggle>
-                    <mat-datepicker #expenseDate></mat-datepicker>
+                    <mat-label>Enter Expense date</mat-label>
+                    <input matInput type="text" [(ngModel)]="expenseForm.date">
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Expense Mode</mat-label>
@@ -154,10 +148,8 @@
                         <input matInput type="number" placeholder="Enter Cheque or DD No" [(ngModel)]="expenseForm.chequeordd">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
-                        <mat-label>Choose Date in Bank</mat-label>
-                        <input matInput [matDatepicker]="expenseBankDate" [(ngModel)]="expenseForm.dateinbank">
-                        <mat-datepicker-toggle matIconSuffix [for]="expenseBankDate"></mat-datepicker-toggle>
-                        <mat-datepicker #expenseBankDate></mat-datepicker>
+                        <mat-label>Enter Date in Bank</mat-label>
+                        <input matInput type="text" [(ngModel)]="expenseForm.dateinbank">
                     </mat-form-field>
                 </div>
             </div>

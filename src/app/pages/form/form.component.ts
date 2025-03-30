@@ -153,7 +153,7 @@ export class FormComponent implements OnInit {
 
         if(this.incomeForm.mode === 'CASH') {
             this.isBankDetailsVisible = false;
-            this.incomeForm.dateinbank = 'None';
+            this.incomeForm.dateinbank = '';
             this.incomeForm.bankname = '';
             this.incomeForm.chequeordd = 0;
         } else {
@@ -169,7 +169,7 @@ export class FormComponent implements OnInit {
         this.expenseForm.mode = this.selectedExpenseMode.toString();
         if(this.expenseForm.mode === 'CASH') {
             this.isBankDetailsVisible = false;
-            this.expenseForm.dateinbank = 'None';
+            this.expenseForm.dateinbank = '';
             this.expenseForm.bankname = '';
             this.expenseForm.chequeordd = 0;
         } else {
@@ -181,13 +181,14 @@ export class FormComponent implements OnInit {
         this.apiService.getIncomeDetailsService(this.dataId, this.user).subscribe({
             next: (response: any) => {
                 this.incomeForm = response;
+                console.log(this.incomeForm);
                 if(this.incomeForm.mode.includes('Transfer')) {
                     this.selectedIncomeMode = 'Transfer';
                     this.handleIncomeModeChange();
-                } else if(this.incomeForm.mode.includes('Cash')) {
+                } else if(this.incomeForm.mode.includes('CASH')) {
                     this.selectedIncomeMode = 'CASH';
                     this.handleIncomeModeChange();
-                } else if (this.incomeForm.mode.includes('Cheque')) {
+                } else if (this.incomeForm.mode.includes('CHEQUE')) {
                     this.selectedIncomeMode = 'CHEQUE'
                     this.handleIncomeModeChange();
                 } else if(this.selectedIncomeMode.includes('demand draft')) {
@@ -216,10 +217,10 @@ export class FormComponent implements OnInit {
                 if(this.expenseForm.mode.includes('Transfer')) {
                     this.selectedExpenseMode = 'Transfer';
                     this.handleExpenseModeChange();
-                } else if(this.expenseForm.mode.includes('Cash')) {
+                } else if(this.expenseForm.mode.includes('CASH')) {
                     this.selectedExpenseMode = 'CASH';
                     this.handleExpenseModeChange();
-                } else if (this.expenseForm.mode.includes('Cheque')) {
+                } else if (this.expenseForm.mode.includes('CHEQUE')) {
                     this.selectedExpenseMode = 'CHEQUE'
                     this.handleExpenseModeChange();
                 } else if(this.selectedIncomeMode.includes('demand draft')) {
@@ -242,8 +243,12 @@ export class FormComponent implements OnInit {
     }
 
     public handleSaveIncome() {
-        this.incomeForm.date = moment(this.incomeForm.date).format('yyyy-MM-DD');
-        this.incomeForm.dateinbank = moment(this.incomeForm.dateinbank).format('yyyy-MM-DD');
+
+        if(this.incomeForm.mode === "CASH") {
+            this.incomeForm.bankname = '';
+            this.incomeForm.chequeordd = 0;
+            this.incomeForm.dateinbank = '';
+        }
 
         this.apiService.handleCreateIncome(this.incomeForm, this.user).subscribe({
             next: (responseData) => {
@@ -262,9 +267,11 @@ export class FormComponent implements OnInit {
     }
 
     public handleUpdateIncomeForm() {
-        this.incomeForm.date = moment(this.incomeForm.date).format('yyyy-MM-DD');
-        this.incomeForm.dateinbank = moment(this.incomeForm.dateinbank).format('yyyy-MM-DD');
-
+        if(this.incomeForm.mode === "CASH") {
+            this.incomeForm.dateinbank = '';
+            this.incomeForm.bankname = '';
+            this.incomeForm.chequeordd = 0;
+        }
         this.apiService.handleUpdateIncomeService(this.dataId, this.user, this.incomeForm).subscribe({
             next: (response) => {
                 console.log(response);
@@ -281,8 +288,11 @@ export class FormComponent implements OnInit {
     }
 
     public handleUpdateExpenseForm() {
-        this.expenseForm.date = moment(this.expenseForm.date).format('yyyy-MM-DD');
-        this.expenseForm.dateinbank = moment(this.expenseForm.dateinbank).format('yyyy-MM-DD');
+        if(this.expenseForm.mode === "CASH") {
+            this.expenseForm.bankname = '';
+            this.expenseForm.chequeordd = 0;
+            this.expenseForm.dateinbank = '';
+        }
 
         this.apiService.handleUpdateExpenseService(this.dataId, this.user, this.expenseForm).subscribe({
             next: (response) => {
@@ -295,19 +305,14 @@ export class FormComponent implements OnInit {
             complete: () => {
                 console.log('complete');
             }
-        })
+        });
     }
 
     public handleSaveExpense() {
-        if (moment(this.expenseForm.date).isValid()) {
-            this.expenseForm.date = moment(this.expenseForm.date).format('yyyy-MM-DD');
-        } else {
-            this.expenseForm.date = '';
-        }
 
-        if (moment(this.expenseForm.dateinbank).isValid()) {
-            this.expenseForm.dateinbank = moment(this.expenseForm.dateinbank).format('yyyy-MM-DD');
-        } else {
+        if(this.expenseForm.mode === "CASH") {
+            this.expenseForm.bankname = '';
+            this.expenseForm.chequeordd = 0;
             this.expenseForm.dateinbank = '';
         }
 
