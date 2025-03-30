@@ -153,6 +153,9 @@ export class FormComponent implements OnInit {
 
         if(this.incomeForm.mode === 'CASH') {
             this.isBankDetailsVisible = false;
+            this.incomeForm.dateinbank = 'None';
+            this.incomeForm.bankname = '';
+            this.incomeForm.chequeordd = 0;
         } else {
             this.isBankDetailsVisible = true;
         }
@@ -166,6 +169,9 @@ export class FormComponent implements OnInit {
         this.expenseForm.mode = this.selectedExpenseMode.toString();
         if(this.expenseForm.mode === 'CASH') {
             this.isBankDetailsVisible = false;
+            this.expenseForm.dateinbank = 'None';
+            this.expenseForm.bankname = '';
+            this.expenseForm.chequeordd = 0;
         } else {
             this.isBankDetailsVisible = true;
         }
