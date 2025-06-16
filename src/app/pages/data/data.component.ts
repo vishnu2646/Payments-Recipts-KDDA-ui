@@ -9,7 +9,7 @@ import { UserService } from '../../services/user.service';
 import { ApiService } from '../../services/api.service';
 import { IExepnse, IIncome } from '../../types/types';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -32,6 +32,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     styleUrl: './data.component.scss'
 })
 export class DataComponent {
+    private activatedRoute = inject(ActivatedRoute);
+
     private userService = inject(UserService);
 
     private apiService = inject(ApiService);
@@ -39,6 +41,8 @@ export class DataComponent {
     private router = inject(Router);
 
     private _snackBar = inject(MatSnackBar);
+
+    private type: "income" | "expense" = "income";
 
     public isIncomeLoading: boolean = false;
 
@@ -60,6 +64,19 @@ export class DataComponent {
 
     public ngOnInit(): void {
         this.getUserDetails();
+
+        this.activatedRoute.queryParams.subscribe((params) => {
+            if (params['type'] === 'income') {
+                this.selectedType = 'Income';
+                this.type = 'income';
+                this.handleGetIncomeData();
+            } else if (params['type'] === 'expense') {
+                this.selectedType = 'Expense';
+                this.type = 'expense';
+                this.handleGetExpenseData();
+            }
+        });
+
         this.handleGetIncomeData();
     }
 
@@ -72,11 +89,9 @@ export class DataComponent {
 
     public handleFormTypeChange(event: MatSelectChange) {
         this.selectedType = event.source.value;
-        if(this.selectedType === 'Expense') {
-            this.handleGetExpenseData();
-        } else {
-            this.handleGetIncomeData();
-        }
+        this.type = this.selectedType.toLowerCase() as "income" | "expense";
+
+        this.router.navigate(['/dashboard/data'], { queryParams: { type: this.type } });
     }
 
     public applyIncomeFilter(event: Event) {
@@ -93,6 +108,7 @@ export class DataComponent {
         this.apiService.handleDeleteIncomeService(id, this.user).subscribe({
             next: (response) => {
                 this.openSnackBar('Income deleted successfully');
+                this.handleGetIncomeData();
             },
             error: (error: Error) => {
                 console.log(error);
@@ -107,6 +123,7 @@ export class DataComponent {
         this.apiService.handleDeleteExpenseservice(id, this.user).subscribe({
             next: (response) => {
                 this.openSnackBar('Expense deleted successfully');
+                this.handleGetExpenseData();
             },
             error: (error: Error) => {
                 console.log(error);
