@@ -60,9 +60,9 @@ export class FormComponent implements OnInit {
 
     public expenseNameOptions: IExpenseType[] = [];
 
-    public incomeModes: string[] = ['CASH', 'CHEQUE', 'DEMAND DRAFT', 'Transfer'];
+    public incomeModes: string[] = ['CASH', 'CHEQUE', 'DEMAND DRAFT', 'Transfer', 'UPI'];
 
-    public expenseModes: string[] = ['CASH', 'CHEQUE', 'DEMAND DRAFT', 'Transfer'];
+    public expenseModes: string[] = ['CASH', 'CHEQUE', 'DEMAND DRAFT', 'Transfer', 'UPI'];
 
     public selectedIncomeMode: String = '';
 
